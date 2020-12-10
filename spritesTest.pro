@@ -10,10 +10,12 @@ CONFIG += c++11
 
 SOURCES += \
     sprite.cpp \
-    main.cpp
+    main.cpp \
+    tilemap.cpp
 
 HEADERS += \
-    sprite.h
+    sprite.h \
+    tilemap.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

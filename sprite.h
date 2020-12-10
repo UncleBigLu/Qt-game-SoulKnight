@@ -43,6 +43,7 @@ protected:
 
     // Movement properties
     QPointF nextPos;
+    QPointF prevPos;
 };
 
 
@@ -69,6 +70,8 @@ private:
     void changeVel();
     // Functions to shoot bullets according to pressedKeys and attackCD
     void shoot();
+    void move(int step);
+    bool wallCollidCheck();
 };
 
 

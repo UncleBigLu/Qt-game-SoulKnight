@@ -2,7 +2,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QtMath>
-
+#include "tilemap.h"
 //Sprite::Sprite(QObject *parent) :
 //    QObject(parent), QGraphicsItem()
 //{
@@ -35,8 +35,8 @@ Sprite::Sprite(const QString &imgName, const QPointF pos, int maxFNum, int maxRN
 
 QRectF Sprite::boundingRect() const{
     qreal adjust = 1;
-    return QRectF(0 - adjust, 0 - adjust,
-                  frameL + adjust, frameH + adjust);
+    return QRectF(0 + adjust, 0 + adjust,
+                  frameL - adjust, frameH - adjust);
 }
 
 void Sprite::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -63,6 +63,9 @@ void Sprite::advance(int step)
     if(!step)
     {
         // [0]Prepare to move the Item
+
+        if(!isMoving())
+            return;
         nextPos.setX(x()+vel_x);
         nextPos.setY(y()+vel_y);
         // [0]Prepare to move the Item END
@@ -74,7 +77,6 @@ void Sprite::advance(int step)
         // Animation
         nextFrame();
         // Move the item position
-
         setPos(nextPos);
     }
 }
@@ -92,6 +94,8 @@ Player::Player(){
     this->setFocus();
     // Initial player position at (500, 500)
     this->setPos(500,500);
+    // Keep the player at the top of view
+    this->setZValue(2);
 }
 void Player::advance(int step)
 {
@@ -104,13 +108,15 @@ void Player::advance(int step)
         shoot();
         ++sinceLastAttack;
         // [0]Get keyboard input
+
     }
     else
     {
         parentView->centerOn(this);
+        this->update(0, 0, frameL, frameH);
     }
-    // Call the parent function to play animation and move the player
-    Sprite::advance(step);
+    move(step);
+
 }
 
 void Player::changeVel()
@@ -180,6 +186,58 @@ void Player::shoot()
         // End of shoot bullets--------------------------------------
     }
 
+}
+
+void Player::move(int step)
+{
+    if(!isMoving())
+        return;
+    bool collidH, collidV;
+    if(!step)
+    {
+        prevPos = this->pos();
+        nextPos.setX(x()+vel_x);
+        setPos(nextPos);
+        collidH = wallCollidCheck();
+        setPos(prevPos);
+
+        nextPos = prevPos;
+        nextPos.setY(y()+vel_y);
+        setPos(nextPos);
+        collidV = wallCollidCheck();
+        setPos(prevPos);
+
+        nextPos = prevPos;
+        if(!collidH)
+            nextPos.setX(x()+vel_x);
+        if(!collidV)
+            nextPos.setY(y()+vel_y);
+        setPos(nextPos);
+
+        nextFrame();
+        // [0]Prepare to move the Item END
+        return;
+    }
+
+}
+
+bool Player::wallCollidCheck()
+{
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    // Collid exam with the wall
+    for(int i = 0, n = colliding_items.size(); i < n; ++i)
+    {
+        if(typeid (*(colliding_items[i])) == typeid (TileMap))
+        {
+            TileMap *tmpPoint = dynamic_cast<TileMap*>(colliding_items[i]);
+            if(tmpPoint->tileType == WALL)
+            {
+                // Move will cause collidsion, cancel movement
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void Player::keyPressEvent(QKeyEvent *event){

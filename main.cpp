@@ -2,7 +2,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include "sprite.h"
-
+#include "tilemap.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
         // Initial player
     Player *player = new Player();
     scene.addItem(player);
-
+        // Initial map
+    readMapFile(":/data/map.txt",scene);
     // [0]Initial scene
     // [1]Initial game view
     QGraphicsView view(&scene);
