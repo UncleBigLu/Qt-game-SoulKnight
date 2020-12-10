@@ -3,6 +3,10 @@
         <file>hero.png</file>
         <file>bullet0.png</file>
         <file>bullet1.png</file>
+        <file>map/door.png</file>
+        <file>map/d_wall.png</file>
+        <file>map/floor.png</file>
+        <file>map/wall.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>map.txt</file>

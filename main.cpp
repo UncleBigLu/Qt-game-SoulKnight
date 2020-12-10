@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
-    timer.start(500/33);
+    timer.start(1000/64);   // 64 frame per second
 
 
 

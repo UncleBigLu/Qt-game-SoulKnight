@@ -13,7 +13,6 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-    map.h \
     sprite.h
 
 # Default rules for deployment.
