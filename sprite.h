@@ -1,5 +1,6 @@
 #ifndef SPRITE_H
 #define SPRITE_H
+#pragma once
 
 #include <QGraphicsItem>
 #include <QTimer>
@@ -7,6 +8,7 @@
 #include <QPainter>
 #include <QSet>
 #include <QGraphicsView>
+
 
 class Sprite :public QGraphicsItem
 {
@@ -16,7 +18,7 @@ public:
     qreal vel_x = 0.0;
     qreal vel_y = 0.0;
     qreal maxSpeed = 4;
-
+    qreal angle = 0;
     // Returns an estimate of the area painted by the item
     QRectF boundingRect() const override;
     // Implements the actuall painting
@@ -26,21 +28,20 @@ public:
 
 protected:
     void nextFrame();
-    void advance(int step) override;
+    virtual void advance(int step) override;
 
     // Animation control properties
     QPixmap *spriteImage;
     int currentFrame = 0;           // Range from frame 0 to 3
-    const int maxFrameNum = 4;
+    int maxFrameNum = 4;
     int currentRow = 0;
-    const int maxRowNum = 2;        // Max row num in the sprite image
-    const int frameL = 100;         // Lenth of a single frame
-    const int frameH = 100;         // Height of a single frame
+    int maxRowNum = 2;        // Max row num in the sprite image
+    int frameL = 100;         // Lenth of a single frame
+    int frameH = 100;         // Height of a single frame
 
     // Movement properties
     QPointF nextPos;
 };
-
 
 
 class Player:public Sprite{
@@ -59,6 +60,14 @@ private:
     void advance(int step) override;
     // Get keyboard input
     QSet<int> pressedKeys;
+
+};
+
+
+class Bullet:public Sprite{
+public:
+    Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool owner);
+    bool owner; // False represents enemy, true represents player.
 };
 
 #endif // SPRITE_H

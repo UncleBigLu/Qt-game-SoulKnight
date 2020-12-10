@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/images">
         <file>hero.png</file>
+        <file>bullet0.png</file>
+        <file>bullet1.png</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file>map.txt</file>
     </qresource>
 </RCC>

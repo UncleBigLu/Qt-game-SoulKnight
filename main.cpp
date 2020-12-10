@@ -1,20 +1,23 @@
-
-
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include "sprite.h"
 
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    // [0]Initial scene
     QGraphicsScene scene;
-    // Set the scene to a fixed size
+    // Next line set the scene to a fixed size
     //scene.setSceneRect(0, 0, 1080,720);
     scene.setItemIndexMethod(QGraphicsScene::NoIndex);
+        // Initial player
     Player *player = new Player();
     scene.addItem(player);
 
+    // [0]Initial scene
+    // [1]Initial game view
     QGraphicsView view(&scene);
     view.setRenderHint(QPainter::Antialiasing);
     view.setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
@@ -23,7 +26,7 @@ int main(int argc, char *argv[])
     view.show();
     // Let the player get control of view
     player->parentView = &view;
-
+    // [1]Initial game view
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
