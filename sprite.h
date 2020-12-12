@@ -8,7 +8,7 @@
 #include <QPainter>
 #include <QSet>
 #include <QGraphicsView>
-
+#include <QtMath>
 
 class Sprite :public QGraphicsItem
 {
@@ -26,10 +26,13 @@ public:
     // Implements the actuall painting
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
-    bool isMoving();
+    bool isMoving() const;
 
 protected:
     void nextFrame();
+    virtual void move(int step);
+    unsigned int sinceLastFrame = 0;
+    const unsigned int frameUpdateCD = 10;
     virtual void advance(int step) override;
 
     // Animation control properties
@@ -46,40 +49,7 @@ protected:
     QPointF prevPos;
 };
 
+bool wallCollidCheck(const Sprite*);
 
-class Player:public Sprite{
-public:
-    // Get keyboard input
-    void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
-
-    explicit Player();
-
-    // A reference of view
-    QGraphicsView *parentView = nullptr;
-
-private:
-    // Max attack speed is 1 bullet per 20 frame
-    const int attackCD = 10;
-    int sinceLastAttack = 0;    // Increase 1 per frame
-    // Update frame and position and other properties.
-    void advance(int step) override;
-    // Get keyboard input
-    QSet<int> pressedKeys;
-    // Function to change player velocity according to pressedKeys
-    void changeVel();
-    // Functions to shoot bullets according to pressedKeys and attackCD
-    void shoot();
-    void move(int step);
-    bool wallCollidCheck();
-};
-
-
-class Bullet:public Sprite{
-public:
-    Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool owner);
-    bool owner; // False represents enemy, true represents player.
-    int damage = 2;
-};
 
 #endif // SPRITE_H

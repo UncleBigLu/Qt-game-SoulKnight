@@ -3,6 +3,9 @@
 #include <QGraphicsView>
 #include "sprite.h"
 #include "tilemap.h"
+#include "player.h"
+#include "enemy.h"
+#include "bullet.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +19,7 @@ int main(int argc, char *argv[])
     Player *player = new Player();
     scene.addItem(player);
         // Initial map
-    readMapFile(":/data/map.txt",scene);
+    player->setPos(readMapFile(":/data/map.txt",scene, player)) ;
     // [0]Initial scene
     // [1]Initial game view
     QGraphicsView view(&scene);
@@ -24,6 +27,7 @@ int main(int argc, char *argv[])
     view.setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     view.resize(1080, 720);
     view.centerOn(player);
+    view.setBackgroundBrush(QPixmap(":images/map/floor.png"));
     view.show();
     // Let the player get control of view
     player->parentView = &view;
@@ -32,9 +36,6 @@ int main(int argc, char *argv[])
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
     timer.start(1000/64);   // 64 frame per second
-
-
-
 
     return a.exec();
 }

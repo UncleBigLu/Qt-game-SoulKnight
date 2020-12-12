@@ -3,17 +3,21 @@
 
 #include "sprite.h"
 #include <QFile>
+#include "player.h"
+#include "enemy.h"
 
 enum {FLOOR=0, WALL, DOOR, BOX};
 
-void readMapFile(const QString &fileName, QGraphicsScene&);
+QPointF readMapFile(const QString &fileName, QGraphicsScene&, Player*);
 
 
 class TileMap : public Sprite
 {
 public:
-    TileMap(const int type, const QString &imgName, const QPointF pos, int maxFNum, int maxRNum, int fLenth, int fHeight);
+    TileMap(const int type, const QString &imgName, const QPointF pos,
+            bool isCollid = false, int maxFNum = 1, int maxRNum = 1, int fLenth = 100, int fHeight = 100);
     const int tileType;
+    bool isCollidBlock;
 };
 
 #endif // TILEMAP_H
