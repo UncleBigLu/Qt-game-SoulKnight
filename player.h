@@ -13,7 +13,6 @@ public:
 
     // A reference of view
     QGraphicsView *parentView = nullptr;
-
 private:
     // Max attack speed is 1 bullet per 20 frame
     const unsigned int attackCD = 10;

@@ -7,6 +7,11 @@ TileMap::TileMap(const int type, const QString &imgName, const QPointF pos, bool
 {
 }
 
+void TileMap::getHit(int damage, int effect)
+{
+    return;
+}
+
 QPointF readMapFile(const QString &fileName, QGraphicsScene& scene, Player* p)
 {
 

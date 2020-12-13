@@ -8,9 +8,8 @@ class Enemy:public Sprite{
 public:
     Enemy(const QString &imgName, const QPointF pos, Player* atkTarget,
           int maxHP = 10, int maxFNum = 4, int maxRNum = 2, int fLenth = 100, int fHeight = 100);
-    const int maxHP;
-    int currentHP;
     Player *attackTarget = nullptr;
+    void die() override;
 private:
     // Attack attributes----------------------------------------
     // Time interval between two bullets

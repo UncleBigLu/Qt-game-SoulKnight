@@ -18,6 +18,7 @@ public:
             bool isCollid = false, int maxFNum = 1, int maxRNum = 1, int fLenth = 100, int fHeight = 100);
     const int tileType;
     bool isCollidBlock;
+    void getHit(int damage, int effect) override;
 };
 
 #endif // TILEMAP_H

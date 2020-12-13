@@ -30,6 +30,14 @@ QRectF Sprite::boundingRect() const{
                   frameL - adjust, frameH - adjust);
 }
 
+QPainterPath Sprite::shape() const{
+    QPainterPath path;
+    qreal adjust = 10;
+    path.addRect(0+ adjust, 0 + adjust,
+                 frameL - adjust, frameH - adjust);
+    return path;
+}
+
 void Sprite::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     /* In the graphic renderer we draw the sprite
      * The first two arguments - is the X and Y coordinates of where to put QPixmap
@@ -46,7 +54,24 @@ void Sprite::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 bool Sprite::isMoving() const
 {
     return (vel_x != 0 || vel_y != 0);
-}// Initial source picture
+}
+
+void Sprite::getHit(int damage, int effect)
+{
+    currentHP -= damage;
+    if(currentHP <= 0)
+        die();
+    return;
+}
+
+void Sprite::die()
+{
+    scene()->removeItem(this);
+
+    delete (this);
+    return;
+}
+
 
 
 void Sprite::advance(int step)

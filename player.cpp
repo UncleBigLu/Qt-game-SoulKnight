@@ -12,6 +12,9 @@ Player::Player(){
     this->setPos(500,500);
     // Keep the player at the top of view
     this->setZValue(2);
+
+    maxHP = 10;
+    currentHP = maxHP;
 }
 void Player::advance(int step)
 {

@@ -35,11 +35,20 @@ void Enemy::advance(int step)
 
 Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget,
              int maxHP, int maxFNum, int maxRNum, int fLenth, int fHeight):
-    Sprite(imgName, pos, maxFNum, maxRNum, fLenth, fHeight), maxHP(maxHP)
+    Sprite(imgName, pos, maxFNum, maxRNum, fLenth, fHeight)
 {
+    this->maxHP = maxHP;
+    this->currentHP = maxHP;
     attackTarget = atkTarget;
     // Keep the enemy at the top of map
     this->setZValue(1);
+}
+
+void Enemy::die()
+{
+    scene()->removeItem(this);
+    delete (this);
+    return;
 }
 
 void Enemy::shoot(){

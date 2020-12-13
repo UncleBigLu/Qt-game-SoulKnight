@@ -23,11 +23,13 @@ public:
     qreal angle = 0;
     // Returns an estimate of the area painted by the item
     QRectF boundingRect() const override;
+    QPainterPath shape() const override;
     // Implements the actuall painting
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
     bool isMoving() const;
-
+    virtual void getHit(int damage, int effect);
+    virtual void die();
 protected:
     void nextFrame();
     virtual void move(int step);
@@ -47,6 +49,10 @@ protected:
     // Movement properties
     QPointF nextPos;
     QPointF prevPos;
+
+    // Life properties
+    int maxHP = 1;
+    int currentHP = 1;
 };
 
 bool wallCollidCheck(const Sprite*);
