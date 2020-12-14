@@ -19,10 +19,11 @@ public:
                QWidget *widget) override;
     int maxHP = 10;
     int currentHP = 10;
-private:
     const int maxLenth;
     const int maxWidth;
     const int margin;
+private:
+
 
 };
 
