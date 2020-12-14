@@ -2,9 +2,6 @@
 #define BULLET_H
 
 #include "sprite.h"
-#include "tilemap.h"
-#include "player.h"
-#include "enemy.h"
 
 class Bullet:public Sprite{
 public:

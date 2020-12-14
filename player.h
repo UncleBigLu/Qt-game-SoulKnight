@@ -1,8 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <QSet>
 #include "sprite.h"
-#include "statusbar.h"
+
+class StatusBar;
 
 class Player:public Sprite{
 public:

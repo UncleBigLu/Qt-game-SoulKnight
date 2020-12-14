@@ -6,7 +6,6 @@
 #include <QTimer>
 #include <QPixmap>
 #include <QPainter>
-#include <QSet>
 #include <QGraphicsView>
 #include <QtMath>
 

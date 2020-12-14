@@ -1,7 +1,7 @@
 #include "player.h"
 #include <QKeyEvent>
-#include <QtMath>
 #include "bullet.h"
+#include "statusbar.h"
 
 // [1]Player class defination------------------------------------------------------
 Player::Player(){

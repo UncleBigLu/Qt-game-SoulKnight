@@ -1,12 +1,6 @@
 #ifndef STATUSBAR_H
 #define STATUSBAR_H
 #include <QGraphicsItem>
-#include <QTimer>
-#include <QPixmap>
-#include <QPainter>
-#include <QSet>
-#include <QGraphicsView>
-#include <QtMath>
 
 
 class StatusBar : public QGraphicsItem

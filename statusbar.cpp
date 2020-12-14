@@ -1,4 +1,5 @@
 #include "statusbar.h"
+#include <QPainter>
 
 StatusBar::StatusBar():
     maxLenth(200), maxWidth(40), margin(5)

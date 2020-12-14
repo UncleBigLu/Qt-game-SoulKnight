@@ -1,4 +1,7 @@
 #include "enemy.h"
+#include "bullet.h"
+#include "player.h"
+#include <QRandomGenerator>
 
 void Enemy::advance(int step)
 {

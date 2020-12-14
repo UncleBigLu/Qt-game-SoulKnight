@@ -1,9 +1,11 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "player.h"
-#include <QRandomGenerator>
-#include "bullet.h"
+
+#include "sprite.h"
+
+class Player;
+
 class Enemy:public Sprite{
 public:
     Enemy(const QString &imgName, const QPointF pos, Player* atkTarget,
