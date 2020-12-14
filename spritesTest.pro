@@ -14,6 +14,7 @@ SOURCES += \
     player.cpp \
     sprite.cpp \
     main.cpp \
+    statusbar.cpp \
     tilemap.cpp
 
 HEADERS += \
@@ -21,6 +22,7 @@ HEADERS += \
     enemy.h \
     player.h \
     sprite.h \
+    statusbar.h \
     tilemap.h
 
 # Default rules for deployment.

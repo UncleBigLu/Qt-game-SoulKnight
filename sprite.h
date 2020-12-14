@@ -30,6 +30,9 @@ public:
     bool isMoving() const;
     virtual void getHit(int damage, int effect);
     virtual void die();
+    // Life properties
+    int maxHP = 1;
+    int currentHP = 1;
 protected:
     void nextFrame();
     virtual void move(int step);
@@ -50,9 +53,7 @@ protected:
     QPointF nextPos;
     QPointF prevPos;
 
-    // Life properties
-    int maxHP = 1;
-    int currentHP = 1;
+
 };
 
 bool wallCollidCheck(const Sprite*);

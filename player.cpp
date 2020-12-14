@@ -16,6 +16,19 @@ Player::Player(){
     maxHP = 10;
     currentHP = maxHP;
 }
+
+void Player::getHit(int damage, int effect)
+{
+    currentHP -= damage;
+    if(currentHP < 0)
+        currentHP = 0;
+
+    bar->currentHP = this->currentHP;
+    bar->update(0, 0, bar->maxLenth, bar->maxWidth);
+    if(currentHP <= 0)
+        die();
+    return;
+}
 void Player::advance(int step)
 {
     if(!step)
@@ -26,13 +39,18 @@ void Player::advance(int step)
             // Shoot bullets
         shoot();
         // [0]Get keyboard input
+
     }
     else
     {
         parentView->centerOn(this);
         this->update(0, 0, frameL, frameH);
+        //
+        bar->setPos(parentView->mapToScene(0, 0));
+
     }
     move(step);
+
 }
 
 void Player::changeVel()

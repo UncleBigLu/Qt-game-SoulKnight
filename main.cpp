@@ -6,6 +6,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "bullet.h"
+#include "statusbar.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +19,14 @@ int main(int argc, char *argv[])
         // Initial player
     Player *player = new Player();
     scene.addItem(player);
+        // Initial statusBar
+    StatusBar *bar = new StatusBar();
+    scene.addItem(bar);
+    bar->setPos(100, 100);
+    player->bar = bar;
+    bar->maxHP = player->maxHP;
+    bar->currentHP = player->currentHP;
+
         // Initial map
     player->setPos(readMapFile(":/data/map.txt",scene, player)) ;
     // [0]Initial scene

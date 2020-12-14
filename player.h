@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "sprite.h"
+#include "statusbar.h"
 
 class Player:public Sprite{
 public:
@@ -13,6 +14,10 @@ public:
 
     // A reference of view
     QGraphicsView *parentView = nullptr;
+    // A reference of status bar
+    StatusBar *bar = nullptr;
+    void getHit(int damage, int effect) override;
+
 private:
     // Max attack speed is 1 bullet per 20 frame
     const unsigned int attackCD = 10;
