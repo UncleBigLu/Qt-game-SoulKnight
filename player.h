@@ -5,6 +5,7 @@
 #include "sprite.h"
 
 class StatusBar;
+class QSoundEffect;
 
 class Player:public Sprite{
 public:
@@ -32,6 +33,8 @@ private:
     void changeVel();
     // Functions to shoot bullets according to pressedKeys and attackCD
     void shoot();
+    QSoundEffect *shootSound;
+    QSoundEffect *hitSound;
 
 };
 

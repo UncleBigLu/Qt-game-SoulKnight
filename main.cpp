@@ -10,6 +10,8 @@
 #include "room.h"
 #include <QDebug>
 #include <QVector>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 int main(int argc, char *argv[])
 {
@@ -52,6 +54,14 @@ int main(int argc, char *argv[])
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
     timer.start(1000/64);   // 64 frame per second
+
+    // Play background music
+    QMediaPlaylist *playlist = new QMediaPlaylist();
+    playlist->addMedia(QUrl("qrc:/data/audio/bgSound1.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    QMediaPlayer *bgmPlayer = new QMediaPlayer();
+    bgmPlayer->setPlaylist(playlist);
+    bgmPlayer->play();
 
     return a.exec();
 }

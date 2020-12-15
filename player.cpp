@@ -2,6 +2,7 @@
 #include <QKeyEvent>
 #include "bullet.h"
 #include "statusbar.h"
+#include <QSoundEffect>
 
 // [1]Player class defination------------------------------------------------------
 Player::Player(){
@@ -15,6 +16,10 @@ Player::Player(){
 
     maxHP = 10;
     currentHP = maxHP;
+    // Initial sound effects--------------------
+    shootSound = new QSoundEffect();
+    hitSound = new QSoundEffect();
+    shootSound->setSource(QUrl("qrc:/data/audio/attack.wav"));
 }
 
 void Player::getHit(int damage, int effect)
@@ -81,7 +86,8 @@ void Player::shoot()
     }
 
     // Shoot bullets
-
+    // Play sound effect
+    shootSound->play();
 
     qreal tmp_angel = 0;
     int shootBtnNum = 0;

@@ -11,5 +11,7 @@
     </qresource>
     <qresource prefix="/data">
         <file>map.txt</file>
+        <file>audio/attack.wav</file>
+        <file>audio/bgSound1.mp3</file>
     </qresource>
 </RCC>
