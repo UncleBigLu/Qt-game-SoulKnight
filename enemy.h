@@ -5,13 +5,16 @@
 #include "sprite.h"
 
 class Player;
+class Room;
 
 class Enemy:public Sprite{
 public:
-    Enemy(const QString &imgName, const QPointF pos, Player* atkTarget,
+    Enemy(const QString &imgName, const QPointF pos, Player* atkTarget, Room *parentRoom,
           int maxHP = 10, int maxFNum = 4, int maxRNum = 2, int fLenth = 100, int fHeight = 100);
     Player *attackTarget = nullptr;
+    Room *parentRoom;
     void die() override;
+    bool isAwake = false;
 private:
     // Attack attributes----------------------------------------
     // Time interval between two bullets
@@ -30,7 +33,7 @@ private:
     const unsigned int maxMoveTime = 320;
     unsigned int moveKeepTime = 0;
     bool canMove = false;
-    bool isAwake = false;
+
     // End of movement attributes===================================
 
     void shoot();

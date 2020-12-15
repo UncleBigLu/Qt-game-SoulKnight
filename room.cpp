@@ -28,7 +28,7 @@ int readMapFile(const QString &fileName, QByteArray a[])
     return arrayLen;
 }
 
-void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *player, QVector<Room> &roomList)
+void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *player, QVector<Room*> &roomList)
 {
     int tileX = 0, tileY = 0;
     for(int counter = 0; counter < arrayLenth; ++counter)
@@ -40,26 +40,39 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
             if(a[counter][i] == '@')   // Top left of a room.
             {
                 // Store room top left and width, height message
-                Room room(QPointF(tileX, tileY));
+                Room *room = new Room(QPointF(tileX, tileY));
                 int tmp_w = 1, tmp_h = 1;
                 while(a[counter][i+tmp_w] != '%')
                     ++tmp_w;
                 while (a[counter+tmp_h][i] != '%')
                     ++tmp_h;
-                room.width = tmp_w + 1;
-                room.height = tmp_h + 1;
+                room->width = tmp_w + 1;
+                room->height = tmp_h + 1;
                 int tmp_tileX = tileX, tmp_tileY = tileY;
                 // Initial monster and door that belongs to this room
-                for(int j = 0; j < room.height; ++j)
+                for(int j = 0; j < room->height; ++j)
                 {
                     tmp_tileX = tileX;
-                    for(int k = 0; k < room.width; ++k)
+                    for(int k = 0; k < room->width; ++k)
                     {
                         if(a[counter+j][i+k] == 'e')
                         {
-                            Enemy* enemy = new Enemy(":images/monster0.png", QPointF(tmp_tileX, tmp_tileY), player);
+                            Enemy* enemy = new Enemy(":images/monster0.png", QPointF(tmp_tileX, tmp_tileY), player, room);
                             scene.addItem(enemy);
-                            room.enemyList.append(enemy);
+                            room->spriteList.append(enemy);
+                            tmp_tileX += 100;
+                        }
+                        else if(a[counter+j][i+k] == 'D')
+                        {
+                           TileMap* d = new TileMap(DOOR, ":/images/map/door.png", QPointF(tmp_tileX,tmp_tileY-100), false, 1, 2,100,200);
+                           scene.addItem(d);
+                           room->spriteList.append(d);
+                           tmp_tileX += 100;
+                        }
+                        else if(a[counter+j][i+k] == 'T')
+                        {
+                            TriggerTile* t = new TriggerTile(FLOOR, ":/images/map/floor.png",QPointF(tmp_tileX, tmp_tileY), room);
+                            scene.addItem(t);
                             tmp_tileX += 100;
                         }
                         else {
@@ -69,13 +82,9 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
                     tmp_tileY += 100;
                 }
                 roomList.append(room);
-                qDebug()<<room.topLeft << room.width<< room.height<<room.enemyList.length();
+                qDebug()<<room->topLeft << room->width<< room->height<<room->spriteList.length();
 
                 m = new TileMap(WALL, ":/images/map/wall.png", QPointF(tileX,tileY), true);
-            }
-            else if(a[counter][i] == 'D')
-            {
-                 m = new TileMap(DOOR, ":/images/map/door.png", QPointF(tileX,tileY-100), false, 1, 2,100,200);
             }
             else if (a[counter][i] == 'p')
             {
@@ -83,6 +92,7 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
                 tileX += 100;
                 continue;
             }
+
             else if(a[counter][i] == '#' || a[counter][i] == '%')
             {
                 m = new TileMap(WALL, ":/images/map/wall.png", QPointF(tileX,tileY), true);
@@ -100,6 +110,42 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
             }
         }
         tileY += 100;
+
+    }
+}
+
+void Room::startBattle()
+{
+    bool hasEnemy = false;
+    qDebug()<<spriteList.length();
+    for(int i = 0, n = spriteList.length(); i < n; ++i)
+    {
+        qDebug() << "Check";
+        if(typeid (*(spriteList[i])) == typeid (Enemy))
+        {
+            hasEnemy = true;
+            break;
+        }
+    }
+    if(!hasEnemy)
+        return;
+    qDebug()<<"Fight begin";
+    for(int i = 0, n = spriteList.length(); i < n; ++i)
+    {
+        if(typeid (*(spriteList[i])) == typeid (Enemy))
+        {
+            // Wake up the enemy
+            Enemy *tmpPoint = dynamic_cast<Enemy*>(spriteList[i]);
+            tmpPoint->isAwake = true;
+        }
+        else if(typeid (*(spriteList[i])) == typeid (TileMap))
+        {
+            // Close the door
+            TileMap *tmpPoint = dynamic_cast<TileMap*>(spriteList[i]);
+            tmpPoint->isCollidBlock = true;
+            tmpPoint-> currentRow = 1;
+            tmpPoint->update(0,0,100, 200);
+        }
 
     }
 }

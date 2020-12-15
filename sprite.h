@@ -32,6 +32,9 @@ public:
     // Life properties
     int maxHP = 1;
     int currentHP = 1;
+    // Animation properties-----------------------------------
+    int currentRow = 0;
+    int maxRowNum = 2;        // Max row num in the sprite image
 protected:
     void nextFrame();
     virtual void move(int step);
@@ -42,9 +45,7 @@ protected:
     // Animation control properties
     QPixmap *spriteImage;
     int currentFrame = 0;           // Range from frame 0 to 3
-    int maxFrameNum = 4;
-    int currentRow = 0;
-    int maxRowNum = 2;        // Max row num in the sprite image
+    int maxFrameNum = 4;    
     int frameL = 100;         // Lenth of a single frame
     int frameH = 100;         // Height of a single frame
 

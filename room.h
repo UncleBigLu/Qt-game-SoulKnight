@@ -8,19 +8,21 @@ class Enemy;
 class Tilemap;
 class Player;
 class QGraphicsScene;
+class Sprite;
 
 class Room
 {
 public:
     Room(QPointF topLeft);
-    QList<Enemy*> enemyList;
-
+    QList<Sprite*> spriteList;
     QPointF topLeft;
     int width;  //     @##%
     int height; // Eg: %##%, width = 4, height = 2
+    void startBattle();
+    void endBattle();
 };
 
 int readMapFile(const QString &fileName, QByteArray a[]);
-void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene&, Player*, QVector<Room>&);
+void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene&, Player*, QVector<Room*>&);
 
 #endif // ROOM_H

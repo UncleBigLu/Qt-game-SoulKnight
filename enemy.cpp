@@ -2,12 +2,16 @@
 #include "bullet.h"
 #include "player.h"
 #include <QRandomGenerator>
+#include "room.h"
+#include <QDebug>
 
 void Enemy::advance(int step)
 {
     if(!step){ // Prepare to take action
         // Update animation
         nextFrame();
+        if(!isAwake)
+            return;
         // Shoot bullets
         shoot();
         // Move
@@ -36,9 +40,9 @@ void Enemy::advance(int step)
     }
 }
 
-Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget,
+Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget, Room* parentRoom,
              int maxHP, int maxFNum, int maxRNum, int fLenth, int fHeight):
-    Sprite(imgName, pos, maxFNum, maxRNum, fLenth, fHeight)
+    Sprite(imgName, pos, maxFNum, maxRNum, fLenth, fHeight), parentRoom(parentRoom)
 {
     this->maxHP = maxHP;
     this->currentHP = maxHP;
@@ -53,6 +57,8 @@ Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget,
 void Enemy::die()
 {
     scene()->removeItem(this);
+    parentRoom->spriteList.removeOne(this);
+    qDebug() << "removeEnemy";
     delete (this);
     return;
 }

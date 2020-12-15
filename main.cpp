@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     bar->currentHP = player->currentHP;
 
         // Initial map
-    QVector<Room> roomVector;
+    QVector<Room*> roomVector;
     int mapRowNum = 0;
     QByteArray mapArray[100];
     mapRowNum = readMapFile(":/data/map.txt",mapArray);
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     view.setRenderHint(QPainter::Antialiasing);
     view.setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     view.resize(1080, 720);
-    view.setBackgroundBrush(QPixmap(":images/map/floor.png"));
+    //view.setBackgroundBrush(QPixmap(":images/map/floor.png"));
     view.show();
     // Let the player get control of view
     player->parentView = &view;
