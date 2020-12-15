@@ -15,14 +15,14 @@ public:
 private:
     // Attack attributes----------------------------------------
     // Time interval between two bullets
-    const unsigned int shootCD = 10;
+    const unsigned int shootCD = 20;
     unsigned int sinceLastShoot = 0;
     // Time interval between two attacks
-    const unsigned int attackCD = 150;
+    const unsigned int attackCD = 300;
     unsigned int sinceLastAttack = 0;
     // Bullet num per attack
     const unsigned int bulletCapacity = 3;
-    unsigned int currentBulletNum;
+    unsigned int currentBulletNum = bulletCapacity;
     // End of attack attributes===================================
     // Movement attributes-------------------------------------
     const unsigned int moveCD = 150;

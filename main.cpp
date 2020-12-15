@@ -7,6 +7,9 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "statusbar.h"
+#include "room.h"
+#include <QDebug>
+#include <QVector>
 
 int main(int argc, char *argv[])
 {
@@ -28,7 +31,12 @@ int main(int argc, char *argv[])
     bar->currentHP = player->currentHP;
 
         // Initial map
-    player->setPos(readMapFile(":/data/map.txt",scene, player)) ;
+    QVector<Room> roomVector;
+    int mapRowNum = 0;
+    QByteArray mapArray[100];
+    mapRowNum = readMapFile(":/data/map.txt",mapArray);
+    initialMap(mapArray, mapRowNum, scene, player, roomVector);
+
     // [0]Initial scene
     // [1]Initial game view
     QGraphicsView view(&scene);

@@ -1,6 +1,8 @@
 #include "bullet.h"
 #include <QtMath>
 #include "tilemap.h"
+#include "enemy.h"
+#include "player.h"
 
 Bullet::Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool own, qreal maxVel, int maxBounceTime):
     owner(own), maxBounceTime(maxBounceTime)

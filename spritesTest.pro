@@ -12,6 +12,7 @@ SOURCES += \
     bullet.cpp \
     enemy.cpp \
     player.cpp \
+    room.cpp \
     sprite.cpp \
     main.cpp \
     statusbar.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     bullet.h \
     enemy.h \
     player.h \
+    room.h \
     sprite.h \
     statusbar.h \
     tilemap.h

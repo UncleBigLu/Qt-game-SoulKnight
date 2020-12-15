@@ -36,7 +36,7 @@ protected:
     void nextFrame();
     virtual void move(int step);
     unsigned int sinceLastFrame = 0;
-    const unsigned int frameUpdateCD = 10;
+    unsigned int frameUpdateCD = 10;
     virtual void advance(int step) override;
 
     // Animation control properties

@@ -2,9 +2,7 @@
 #define TILEMAP_H
 
 #include "sprite.h"
-#include <QFile>
-#include "player.h"
-#include "enemy.h"
+class Player;
 
 enum {FLOOR=0, WALL, DOOR, BOX};
 

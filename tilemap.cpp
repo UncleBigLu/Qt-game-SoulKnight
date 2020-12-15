@@ -1,6 +1,9 @@
 #include "tilemap.h"
 #include <QDebug>
 #include "sprite.h"
+#include <QFile>
+#include "enemy.h"
+#include "player.h"
 
 TileMap::TileMap(const int type, const QString &imgName, const QPointF pos, bool isCollid, int maxFNum, int maxRNum, int fLenth, int fHeight):
     Sprite(imgName, pos, maxFNum, maxRNum, fLenth, fHeight),tileType(type), isCollidBlock(isCollid)

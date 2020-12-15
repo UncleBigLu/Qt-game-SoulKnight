@@ -45,6 +45,9 @@ Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget,
     attackTarget = atkTarget;
     // Keep the enemy at the top of map
     this->setZValue(1);
+    int random = QRandomGenerator::global()->generate();
+    sinceLastAttack = random % attackCD;
+    sinceLastMove = random % moveCD;
 }
 
 void Enemy::die()
