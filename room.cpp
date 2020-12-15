@@ -84,7 +84,6 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
                     tmp_tileY += 100;
                 }
                 roomList.append(room);
-                qDebug()<<room->topLeft << room->width<< room->height<<room->spriteList.length();
 
                 m = new TileMap(WALL, ":/images/map/wall.png", QPointF(tileX,tileY), true);
             }
@@ -118,10 +117,8 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
 
 void Room::startBattle()
 {
-   qDebug()<<enemyNum;
     if(enemyNum <= 0)
        return;
-    qDebug()<<"Fight begin";
     for(int i = 0, n = spriteList.length(); i < n; ++i)
     {
         if(typeid (*(spriteList[i])) == typeid (Enemy))
@@ -144,6 +141,7 @@ void Room::startBattle()
 
 void Room::endBattle()
 {
+    qDebug() << spriteList.length();
     if(enemyNum > 0)
         return;
     // Open the door

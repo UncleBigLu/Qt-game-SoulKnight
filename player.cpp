@@ -14,12 +14,18 @@ Player::Player(){
     // Keep the player at the top of view
     this->setZValue(2);
 
-    maxHP = 10;
+    maxHP = 80;
     currentHP = maxHP;
     // Initial sound effects--------------------
     shootSound = new QSoundEffect();
     hitSound = new QSoundEffect();
     shootSound->setSource(QUrl("qrc:/data/audio/attack.wav"));
+}
+
+Player::~Player()
+{
+    delete (shootSound);
+    delete (hitSound);
 }
 
 void Player::getHit(int damage, int effect)
@@ -122,7 +128,7 @@ void Player::shoot()
 
         tmp_angel = tmp_angel / 180 * 3.142;
 
-        Bullet *b = new Bullet(":/images/bullet0.png",tmp_angel,this->pos(),true);
+        Bullet *b = new Bullet(":/images/bullet0.png",tmp_angel,this->pos(),true, 20, 2);
 
         this->scene()->addItem(b);
 

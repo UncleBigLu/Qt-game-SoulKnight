@@ -12,14 +12,16 @@
 #include <QVector>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include "game.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+//    Game game;
+//    game.initialGame(":/data/map.txt");
     // [0]Initial scene
-    QGraphicsScene scene;
-    // Next line set the scene to a fixed size
-    //scene.setSceneRect(0, 0, 1080,720);
+    QGraphicsScene scene;//    // [0]Initial scene
+
     scene.setItemIndexMethod(QGraphicsScene::NoIndex);
         // Initial player
     Player *player = new Player();
@@ -43,7 +45,7 @@ int main(int argc, char *argv[])
     // [1]Initial game view
     QGraphicsView view(&scene);
     view.setRenderHint(QPainter::Antialiasing);
-    view.setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+    //view.setViewportUpdateMode(QGraphicsView::ViewportUpdate);
     view.resize(1080, 720);
     view.setBackgroundBrush(QPixmap(":images/map/floor.png"));
     view.show();
@@ -62,6 +64,8 @@ int main(int argc, char *argv[])
     QMediaPlayer *bgmPlayer = new QMediaPlayer();
     bgmPlayer->setPlaylist(playlist);
     bgmPlayer->play();
+
+
 
     return a.exec();
 }

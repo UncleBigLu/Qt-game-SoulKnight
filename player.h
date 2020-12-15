@@ -14,6 +14,7 @@ public:
     void keyReleaseEvent(QKeyEvent *event) override;
 
     explicit Player();
+    ~Player();
 
     // A reference of view
     QGraphicsView *parentView = nullptr;

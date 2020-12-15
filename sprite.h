@@ -15,6 +15,7 @@ public:
     explicit Sprite();
     Sprite(const QString &imgName);
     Sprite(const QString &imgName, const QPointF pos, int maxFNum, int maxRNum, int fLenth, int fHeight);
+    ~Sprite();
     // Speed properties
     qreal vel_x = 0.0;
     qreal vel_y = 0.0;

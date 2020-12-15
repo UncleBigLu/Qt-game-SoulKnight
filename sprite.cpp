@@ -24,6 +24,11 @@ Sprite::Sprite(const QString &imgName, const QPointF pos, int maxFNum, int maxRN
     setPos(pos);
 }
 
+Sprite::~Sprite()
+{
+    delete (spriteImage);
+}
+
 QRectF Sprite::boundingRect() const{
     qreal adjust = 1;
     return QRectF(0 + adjust, 0 + adjust,
