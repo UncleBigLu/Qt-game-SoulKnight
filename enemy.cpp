@@ -58,7 +58,8 @@ void Enemy::die()
 {
     scene()->removeItem(this);
     parentRoom->spriteList.removeOne(this);
-    qDebug() << "removeEnemy";
+    parentRoom->enemyNum--;
+    parentRoom->endBattle();
     delete (this);
     return;
 }

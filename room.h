@@ -18,6 +18,7 @@ public:
     QPointF topLeft;
     int width;  //     @##%
     int height; // Eg: %##%, width = 4, height = 2
+    int enemyNum = 0;
     void startBattle();
     void endBattle();
 };

@@ -59,12 +59,14 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
                         {
                             Enemy* enemy = new Enemy(":images/monster0.png", QPointF(tmp_tileX, tmp_tileY), player, room);
                             scene.addItem(enemy);
+                            room->enemyNum++;
                             room->spriteList.append(enemy);
                             tmp_tileX += 100;
                         }
                         else if(a[counter+j][i+k] == 'D')
                         {
                            TileMap* d = new TileMap(DOOR, ":/images/map/door.png", QPointF(tmp_tileX,tmp_tileY-100), false, 1, 2,100,200);
+                           d->setZValue(1);
                            scene.addItem(d);
                            room->spriteList.append(d);
                            tmp_tileX += 100;
@@ -116,19 +118,9 @@ void initialMap(QByteArray a[],int arrayLenth, QGraphicsScene &scene, Player *pl
 
 void Room::startBattle()
 {
-    bool hasEnemy = false;
-    qDebug()<<spriteList.length();
-    for(int i = 0, n = spriteList.length(); i < n; ++i)
-    {
-        qDebug() << "Check";
-        if(typeid (*(spriteList[i])) == typeid (Enemy))
-        {
-            hasEnemy = true;
-            break;
-        }
-    }
-    if(!hasEnemy)
-        return;
+   qDebug()<<enemyNum;
+    if(enemyNum <= 0)
+       return;
     qDebug()<<"Fight begin";
     for(int i = 0, n = spriteList.length(); i < n; ++i)
     {
@@ -147,5 +139,22 @@ void Room::startBattle()
             tmpPoint->update(0,0,100, 200);
         }
 
+    }
+}
+
+void Room::endBattle()
+{
+    if(enemyNum > 0)
+        return;
+    // Open the door
+    for(int i = 0, n = spriteList.length(); i < n; ++i)
+    {
+        if(typeid (*(spriteList[i])) == typeid (TileMap))
+        {
+            TileMap *tmpPoint = dynamic_cast<TileMap*>(spriteList[i]);
+            tmpPoint->isCollidBlock = false;
+            tmpPoint-> currentRow = 0;
+            tmpPoint->update(0,0,100, 200);
+        }
     }
 }
