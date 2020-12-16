@@ -42,7 +42,8 @@ void Enemy::advance(int step)
 
 Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget, Room* parentRoom,
              int maxHP, int maxFNum, int maxRNum, int fLenth, int fHeight):
-    Sprite(imgName, pos, maxFNum, maxRNum, fLenth, fHeight), parentRoom(parentRoom)
+    Sprite(imgName, pos, maxFNum, maxRNum, fLenth, fHeight), parentRoom(parentRoom),
+    bulletPool(":/images/bullet1.png", false,8)
 {
     this->maxHP = maxHP;
     this->currentHP = maxHP;
@@ -53,12 +54,11 @@ Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget, Room*
     sinceLastAttack = random % attackCD;
     sinceLastMove = random % moveCD;
 
-    // Initial bullet poor-------------------------------
-    bulletPoorSize = 30;
-    for(int i = 0; i < bulletPoorSize; ++i)
-    {
-        bulletPoor[i] = new Bullet(":/images/bullet1.png",false, 7);
-    }
+}
+
+Enemy::~Enemy()
+{
+    qDebug()<< "enemy freed";
 }
 
 void Enemy::die()
@@ -66,6 +66,7 @@ void Enemy::die()
     scene()->removeItem(this);
     parentRoom->enemyNum--;
     parentRoom->endBattle();
+    parentRoom->removedSprites.append(this);
     return;
 }
 
@@ -89,13 +90,19 @@ void Enemy::shoot(){
     QLineF atkLine(pos(), attackTarget->pos());
     qreal ang = atkLine.angle() + (QRandomGenerator::global()->bounded(10) - QRandomGenerator::global()->bounded(10));
     // Add bullet to the scene
-    bulletPoor[bulletPoorIndex]->angle = ang/180*3.142;
-    bulletPoor[bulletPoorIndex]->vel_x = bulletPoor[bulletPoorIndex]->maxSpeed * qCos(bulletPoor[bulletPoorIndex]->angle);
-    bulletPoor[bulletPoorIndex]->vel_y = -(bulletPoor[bulletPoorIndex]->maxSpeed * qSin(bulletPoor[bulletPoorIndex]->angle));
-    bulletPoor[bulletPoorIndex]->setPos(this->pos());
-    //Bullet *bullet = new Bullet(":/images/bullet1.png",ang/180*3.142,pos(),false, 10);
-    scene()->addItem(bulletPoor[bulletPoorIndex]);
-    bulletPoorIndex = (bulletPoorIndex + 1) % bulletPoorSize;
+//    bulletPoor[bulletPoorIndex]->angle = ang/180*3.142;
+//    bulletPoor[bulletPoorIndex]->vel_x = bulletPoor[bulletPoorIndex]->maxSpeed * qCos(bulletPoor[bulletPoorIndex]->angle);
+//    bulletPoor[bulletPoorIndex]->vel_y = -(bulletPoor[bulletPoorIndex]->maxSpeed * qSin(bulletPoor[bulletPoorIndex]->angle));
+//    bulletPoor[bulletPoorIndex]->setPos(this->pos());
+//    //Bullet *bullet = new Bullet(":/images/bullet1.png",ang/180*3.142,pos(),false, 10);
+//    scene()->addItem(bulletPoor[bulletPoorIndex]);
+//    bulletPoorIndex = (bulletPoorIndex + 1) % bulletPoorSize;
+    Bullet* b = bulletPool.popBullet();
+    b->angle = ang/180*3.142;
+    b->vel_x = b->maxSpeed * qCos(b->angle);
+    b->vel_y = -(b->maxSpeed * qSin(b->angle));
+    b->setPos(this->pos());
+    this->scene()->addItem(b);
 
     --currentBulletNum;
     sinceLastShoot = 0;

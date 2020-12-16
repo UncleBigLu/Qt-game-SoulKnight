@@ -3,9 +3,12 @@
 #include "bullet.h"
 #include "statusbar.h"
 #include <QSoundEffect>
+#include <QDebug>
 
 // [1]Player class defination------------------------------------------------------
-Player::Player(){
+Player::Player(const QString &imgName):
+    Sprite(imgName), bulletPool(":/images/bullet0.png", true,20, 2)
+{
     // Enable keyboard message receive
     this->setFlag(QGraphicsItem::ItemIsFocusable);
     this->setFocus();
@@ -20,19 +23,13 @@ Player::Player(){
     shootSound = new QSoundEffect();
     hitSound = new QSoundEffect();
     shootSound->setSource(QUrl("qrc:/data/audio/attack.wav"));
-    // Initial bullet poor-------------------------------
-    bulletPoorSize = 30;
-    for(int i = 0; i < bulletPoorSize; ++i)
-    {
-        bulletPoor[i] = new Bullet(":/images/bullet0.png",true, 20, 2);
-    }
+
 }
 
 Player::~Player()
 {
+    qDebug() << "player free";
     delete (shootSound);
-    for(int i = 0; i < bulletPoorSize; ++i)
-        delete (bulletPoor[i]);
     delete (hitSound);
 }
 
@@ -137,13 +134,18 @@ void Player::shoot()
         tmp_angel = tmp_angel / 180 * 3.142;
 
         // Add bullet to the scene-------------------------------------
-        bulletPoor[bulletPoorIndex]->angle = tmp_angel;
-        bulletPoor[bulletPoorIndex]->vel_x = bulletPoor[bulletPoorIndex]->maxSpeed * qCos(tmp_angel);
-        bulletPoor[bulletPoorIndex]->vel_y = -(bulletPoor[bulletPoorIndex]->maxSpeed * qSin(tmp_angel));
-        bulletPoor[bulletPoorIndex]->setPos(this->pos());
-        this->scene()->addItem(bulletPoor[bulletPoorIndex]);
-        bulletPoorIndex = (bulletPoorIndex + 1) % bulletPoorSize;
-
+//        bulletPoor[bulletPoorIndex]->angle = tmp_angel;
+//        bulletPoor[bulletPoorIndex]->vel_x = bulletPoor[bulletPoorIndex]->maxSpeed * qCos(tmp_angel);
+//        bulletPoor[bulletPoorIndex]->vel_y = -(bulletPoor[bulletPoorIndex]->maxSpeed * qSin(tmp_angel));
+//        bulletPoor[bulletPoorIndex]->setPos(this->pos());
+//        this->scene()->addItem(bulletPoor[bulletPoorIndex]);
+//        bulletPoorIndex = (bulletPoorIndex + 1) % bulletPoorSize;
+        Bullet* b = bulletPool.popBullet();
+        b->angle = tmp_angel;
+        b->vel_x = b->maxSpeed * qCos(tmp_angel);
+        b->vel_y = -(b->maxSpeed * qSin(tmp_angel));
+        b->setPos(this->pos());
+        this->scene()->addItem(b);
         // End of shoot bullets--------------------------------------
     }
 

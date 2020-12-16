@@ -17,6 +17,7 @@ public:
     ~Room();
     // Contains every sprites belongs to this room(including enemy and door in this version of code)
     QList<Sprite*> spriteList;
+    QList<Sprite*> removedSprites;
     QPointF topLeft;
     int width;  //     @##%
     int height; // Eg: %##%, width = 4, height = 2

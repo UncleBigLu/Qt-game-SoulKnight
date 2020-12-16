@@ -3,6 +3,8 @@
 
 
 #include "sprite.h"
+#include "bullet.h"
+#include "bulletpool.h"
 
 class Player;
 class Room;
@@ -16,6 +18,7 @@ public:
     Room *parentRoom;
     void die() override;
     bool isAwake = false;
+    ~Enemy();
 private:
     // Attack attributes----------------------------------------
     // Time interval between two bullets
@@ -37,9 +40,7 @@ private:
 
     // End of movement attributes===================================
     // Enemy's bullet pool---------------------------------
-    uint8_t bulletPoorSize = 30;
-    Bullet *bulletPoor[30];
-    uint8_t bulletPoorIndex = 0;
+    BulletPool bulletPool;
 
     void shoot();
     void changeDirToPlayer();

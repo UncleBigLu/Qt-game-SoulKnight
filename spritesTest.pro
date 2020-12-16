@@ -11,6 +11,7 @@ CONFIG += c++11
 
 SOURCES += \
     bullet.cpp \
+    bulletpool.cpp \
     enemy.cpp \
     game.cpp \
     player.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     bullet.h \
+    bulletpool.h \
     enemy.h \
     game.h \
     player.h \

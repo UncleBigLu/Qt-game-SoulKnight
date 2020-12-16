@@ -4,6 +4,7 @@
 #include <QSet>
 #include "sprite.h"
 #include <QVector>
+#include "bulletpool.h"
 
 class StatusBar;
 class QSoundEffect;
@@ -15,7 +16,7 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
-    explicit Player();
+    explicit Player(const QString &imgName);
     ~Player();
 
     // A reference of view
@@ -39,9 +40,7 @@ private:
     QSoundEffect *shootSound;
     QSoundEffect *hitSound;
     // Player's bullet pool
-    uint8_t bulletPoorSize = 30;
-    Bullet *bulletPoor[30];
-    uint8_t bulletPoorIndex = 0;
+    BulletPool bulletPool;
 };
 
 

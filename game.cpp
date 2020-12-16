@@ -38,6 +38,8 @@ Game::~Game()
         delete(playlist[i]);
     }
     delete(bgmPlayer);
+    for(int i = 0, n = roomVector.length(); i < n; ++i)
+        delete (roomVector[i]);
 }
 
 
@@ -45,7 +47,7 @@ Game::~Game()
 void Game::initialGame(const QString &mapFile)
 {
     //Initial player
-    Player *player = new Player();
+    Player *player = new Player(":/images/hero.png");
     scene->addItem(player);
 
     // Initial statusBar

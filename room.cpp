@@ -13,8 +13,9 @@ Room::Room(QPointF topLeft):
 
 Room::~Room()
 {
-    for(int i = 0, n = spriteList.length(); i < n; ++i)
-        delete (spriteList[i]);
+    qDebug() << "room Freed";
+    for(int i = 0, n = removedSprites.length(); i < n; ++i)
+        delete (removedSprites[i]);
 }
 
 int readMapFile(const QString &fileName, QByteArray a[])

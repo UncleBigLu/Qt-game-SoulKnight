@@ -17,53 +17,53 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    Game game;
-//    game.initialGame(":/data/map.txt");
-    // [0]Initial scene
-    QGraphicsScene scene;//    // [0]Initial scene
+    Game game;
+    game.initialGame(":/data/map.txt");
+//    // [0]Initial scene
+//    QGraphicsScene scene;//    // [0]Initial scene
 
-    scene.setItemIndexMethod(QGraphicsScene::NoIndex);
-        // Initial player
-    Player *player = new Player();
-    scene.addItem(player);
-        // Initial statusBar
-    StatusBar *bar = new StatusBar();
-    scene.addItem(bar);
-    bar->setPos(100, 100);
-    player->bar = bar;
-    bar->maxHP = player->maxHP;
-    bar->currentHP = player->currentHP;
+//    scene.setItemIndexMethod(QGraphicsScene::NoIndex);
+//        // Initial player
+//    Player *player = new Player();
+//    scene.addItem(player);
+//        // Initial statusBar
+//    StatusBar *bar = new StatusBar();
+//    scene.addItem(bar);
+//    bar->setPos(100, 100);
+//    player->bar = bar;
+//    bar->maxHP = player->maxHP;
+//    bar->currentHP = player->currentHP;
 
-        // Initial map
-    QVector<Room*> roomVector;
-    int mapRowNum = 0;
-    QByteArray mapArray[100];
-    mapRowNum = readMapFile(":/data/map.txt",mapArray);
-    initialMap(mapArray, mapRowNum, scene, player, roomVector);
+//        // Initial map
+//    QVector<Room*> roomVector;
+//    int mapRowNum = 0;
+//    QByteArray mapArray[100];
+//    mapRowNum = readMapFile(":/data/map.txt",mapArray);
+//    initialMap(mapArray, mapRowNum, scene, player, roomVector);
 
-    // [0]Initial scene
-    // [1]Initial game view
-    QGraphicsView view(&scene);
-    view.setRenderHint(QPainter::Antialiasing);
-    //view.setViewportUpdateMode(QGraphicsView::ViewportUpdate);
-    view.resize(1080, 720);
-    view.setBackgroundBrush(QPixmap(":images/map/floor.png"));
-    view.show();
-    // Let the player get control of view
-    player->parentView = &view;
-    // [1]Initial game view
+//    // [0]Initial scene
+//    // [1]Initial game view
+//    QGraphicsView view(&scene);
+//    view.setRenderHint(QPainter::Antialiasing);
+//    //view.setViewportUpdateMode(QGraphicsView::ViewportUpdate);
+//    view.resize(1080, 720);
+//    view.setBackgroundBrush(QPixmap(":images/map/floor.png"));
+//    view.show();
+//    // Let the player get control of view
+//    player->parentView = &view;
+//    // [1]Initial game view
 
-    QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
-    timer.start(1000/64);   // 64 frame per second
+//    QTimer timer;
+//    QObject::connect(&timer, &QTimer::timeout, &scene, &QGraphicsScene::advance);
+//    timer.start(1000/64);   // 64 frame per second
 
-    // Play background music
-    QMediaPlaylist *playlist = new QMediaPlaylist();
-    playlist->addMedia(QUrl("qrc:/data/audio/bgSound1.mp3"));
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
-    QMediaPlayer *bgmPlayer = new QMediaPlayer();
-    bgmPlayer->setPlaylist(playlist);
-    bgmPlayer->play();
+//    // Play background music
+//    QMediaPlaylist *playlist = new QMediaPlaylist();
+//    playlist->addMedia(QUrl("qrc:/data/audio/bgSound1.mp3"));
+//    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+//    QMediaPlayer *bgmPlayer = new QMediaPlayer();
+//    bgmPlayer->setPlaylist(playlist);
+//    bgmPlayer->play();
 
 
 

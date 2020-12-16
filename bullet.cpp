@@ -3,9 +3,10 @@
 #include "tilemap.h"
 #include "enemy.h"
 #include "player.h"
-
-Bullet::Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool own, qreal maxVel, int maxBounceTime):
-    owner(own), maxBounceTime(maxBounceTime),bounceCounter(maxBounceTime)
+#include <QDebug>
+Bullet::Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool own, BulletPool* parentPool,
+               qreal maxVel, int maxBounceTime):
+    owner(own), maxBounceTime(maxBounceTime),bounceCounter(maxBounceTime), parentPool(parentPool)
 {
     // Initial source picture
         spriteImage = new QPixmap(imgName);
@@ -23,8 +24,9 @@ Bullet::Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool 
         //setRotation(angel);
 }
 
-Bullet::Bullet(const QString &imgName, bool owner, qreal maxVel, int maxBounceTime):
-    owner(owner), maxBounceTime(maxBounceTime),bounceCounter(maxBounceTime)
+Bullet::Bullet(const QString &imgName, bool owner,BulletPool* parentPool,
+               qreal maxVel, int maxBounceTime):
+    owner(owner), maxBounceTime(maxBounceTime),bounceCounter(maxBounceTime), parentPool(parentPool)
 {
     // Initial source picture
         spriteImage = new QPixmap(imgName);
@@ -34,6 +36,11 @@ Bullet::Bullet(const QString &imgName, bool owner, qreal maxVel, int maxBounceTi
         maxRowNum = 1;
         frameH = 40;
         frameL = 40;
+}
+
+Bullet::~Bullet()
+{
+
 }
 
 void Bullet::advance(int step)
@@ -67,6 +74,7 @@ void Bullet::advance(int step)
                 Sprite *tmpPoint = dynamic_cast<Sprite*>(colliding_items[i]);
                 tmpPoint->getHit(damage, effect);
                 scene()->removeItem(this);
+                this->parentPool->pushBullet(this);
                 return;
             }
         }
@@ -97,6 +105,7 @@ void Bullet::advance(int step)
                 Sprite *tmpPoint = dynamic_cast<Sprite*>(colliding_items2[i]);
                 tmpPoint->getHit(damage, effect);
                 scene()->removeItem(this);
+                this->parentPool->pushBullet(this);
                 return;
             }
         }
@@ -114,6 +123,7 @@ void Bullet::advance(int step)
         {
             bounceCounter = maxBounceTime;
             scene()->removeItem(this);
+            this->parentPool->pushBullet(this);
             return;
         }
 
@@ -126,6 +136,7 @@ void Bullet::advance(int step)
         else {
             bounceCounter = maxBounceTime;
             scene()->removeItem(this);
+            this->parentPool->pushBullet(this);
             return;
         }
         setPos(nextPos);

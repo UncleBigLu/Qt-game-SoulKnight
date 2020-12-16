@@ -5,10 +5,9 @@
 #include "tilemap.h"
 #include <QRandomGenerator>
 // [0]Sprite class defination
+
 Sprite::Sprite()
 {
-    spriteImage = new QPixmap(":/images/hero.png");
-
 }
 
 Sprite::Sprite(const QString &imgName)
