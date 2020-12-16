@@ -20,11 +20,19 @@ Player::Player(){
     shootSound = new QSoundEffect();
     hitSound = new QSoundEffect();
     shootSound->setSource(QUrl("qrc:/data/audio/attack.wav"));
+    // Initial bullet poor-------------------------------
+    bulletPoorSize = 30;
+    for(int i = 0; i < bulletPoorSize; ++i)
+    {
+        bulletPoor[i] = new Bullet(":/images/bullet0.png",true, 20, 2);
+    }
 }
 
 Player::~Player()
 {
     delete (shootSound);
+    for(int i = 0; i < bulletPoorSize; ++i)
+        delete (bulletPoor[i]);
     delete (hitSound);
 }
 
@@ -128,9 +136,13 @@ void Player::shoot()
 
         tmp_angel = tmp_angel / 180 * 3.142;
 
-        Bullet *b = new Bullet(":/images/bullet0.png",tmp_angel,this->pos(),true, 20, 2);
-
-        this->scene()->addItem(b);
+        // Add bullet to the scene-------------------------------------
+        bulletPoor[bulletPoorIndex]->angle = tmp_angel;
+        bulletPoor[bulletPoorIndex]->vel_x = bulletPoor[bulletPoorIndex]->maxSpeed * qCos(tmp_angel);
+        bulletPoor[bulletPoorIndex]->vel_y = -(bulletPoor[bulletPoorIndex]->maxSpeed * qSin(tmp_angel));
+        bulletPoor[bulletPoorIndex]->setPos(this->pos());
+        this->scene()->addItem(bulletPoor[bulletPoorIndex]);
+        bulletPoorIndex = (bulletPoorIndex + 1) % bulletPoorSize;
 
         // End of shoot bullets--------------------------------------
     }

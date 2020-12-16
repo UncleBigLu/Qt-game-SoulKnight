@@ -3,9 +3,11 @@
 
 #include <QSet>
 #include "sprite.h"
+#include <QVector>
 
 class StatusBar;
 class QSoundEffect;
+class Bullet;
 
 class Player:public Sprite{
 public:
@@ -36,7 +38,10 @@ private:
     void shoot();
     QSoundEffect *shootSound;
     QSoundEffect *hitSound;
-
+    // Player's bullet pool
+    uint8_t bulletPoorSize = 30;
+    Bullet *bulletPoor[30];
+    uint8_t bulletPoorIndex = 0;
 };
 
 

@@ -11,6 +11,12 @@ Room::Room(QPointF topLeft):
 
 }
 
+Room::~Room()
+{
+    for(int i = 0, n = spriteList.length(); i < n; ++i)
+        delete (spriteList[i]);
+}
+
 int readMapFile(const QString &fileName, QByteArray a[])
 {
     QFile file(fileName);

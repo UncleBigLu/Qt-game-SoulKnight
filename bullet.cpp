@@ -5,7 +5,7 @@
 #include "player.h"
 
 Bullet::Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool own, qreal maxVel, int maxBounceTime):
-    owner(own), maxBounceTime(maxBounceTime)
+    owner(own), maxBounceTime(maxBounceTime),bounceCounter(maxBounceTime)
 {
     // Initial source picture
         spriteImage = new QPixmap(imgName);
@@ -21,6 +21,19 @@ Bullet::Bullet(const QString &imgName, const qreal ang, const QPointF pos, bool 
         nextPos = pos;
         setPos(pos);
         //setRotation(angel);
+}
+
+Bullet::Bullet(const QString &imgName, bool owner, qreal maxVel, int maxBounceTime):
+    owner(owner), maxBounceTime(maxBounceTime),bounceCounter(maxBounceTime)
+{
+    // Initial source picture
+        spriteImage = new QPixmap(imgName);
+        // Initial other properties
+        maxSpeed = maxVel;
+        maxFrameNum = 1;
+        maxRowNum = 1;
+        frameH = 40;
+        frameL = 40;
 }
 
 void Bullet::advance(int step)
@@ -54,7 +67,6 @@ void Bullet::advance(int step)
                 Sprite *tmpPoint = dynamic_cast<Sprite*>(colliding_items[i]);
                 tmpPoint->getHit(damage, effect);
                 scene()->removeItem(this);
-                delete (this);
                 return;
             }
         }
@@ -85,7 +97,6 @@ void Bullet::advance(int step)
                 Sprite *tmpPoint = dynamic_cast<Sprite*>(colliding_items2[i]);
                 tmpPoint->getHit(damage, effect);
                 scene()->removeItem(this);
-                delete (this);
                 return;
             }
         }
@@ -94,27 +105,27 @@ void Bullet::advance(int step)
         nextPos = prevPos;
         if(!collidH)
             nextPos.setX(x()+vel_x);
-        else if(maxBounceTime > 0)
+        else if(bounceCounter > 0)
         {
             vel_x = -vel_x;     // Bounce
-            maxBounceTime--;
+            bounceCounter--;
         }
         else
         {
+            bounceCounter = maxBounceTime;
             scene()->removeItem(this);
-            delete (this);
             return;
         }
 
         if(!collidV)
             nextPos.setY(y()+vel_y);
-        else if(maxBounceTime > 0){
-            maxBounceTime--;
+        else if(bounceCounter > 0){
+            bounceCounter--;
             vel_y = -vel_y;     // Bounce
         }
         else {
+            bounceCounter = maxBounceTime;
             scene()->removeItem(this);
-            delete (this);
             return;
         }
         setPos(nextPos);

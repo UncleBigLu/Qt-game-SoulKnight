@@ -6,6 +6,7 @@
 
 class Player;
 class Room;
+class Bullet;
 
 class Enemy:public Sprite{
 public:
@@ -35,11 +36,17 @@ private:
     bool canMove = false;
 
     // End of movement attributes===================================
+    // Enemy's bullet pool---------------------------------
+    uint8_t bulletPoorSize = 30;
+    Bullet *bulletPoor[30];
+    uint8_t bulletPoorIndex = 0;
 
     void shoot();
     void changeDirToPlayer();
     void advance(int step) override;
     void move(int step) override;
+
+
 
 };
 

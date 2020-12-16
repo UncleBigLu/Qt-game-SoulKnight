@@ -52,15 +52,20 @@ Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget, Room*
     int random = QRandomGenerator::global()->generate();
     sinceLastAttack = random % attackCD;
     sinceLastMove = random % moveCD;
+
+    // Initial bullet poor-------------------------------
+    bulletPoorSize = 30;
+    for(int i = 0; i < bulletPoorSize; ++i)
+    {
+        bulletPoor[i] = new Bullet(":/images/bullet1.png",false, 7);
+    }
 }
 
 void Enemy::die()
 {
     scene()->removeItem(this);
-    parentRoom->spriteList.removeOne(this);
     parentRoom->enemyNum--;
     parentRoom->endBattle();
-    delete (this);
     return;
 }
 
@@ -83,8 +88,15 @@ void Enemy::shoot(){
     }
     QLineF atkLine(pos(), attackTarget->pos());
     qreal ang = atkLine.angle() + (QRandomGenerator::global()->bounded(10) - QRandomGenerator::global()->bounded(10));
-    Bullet *bullet = new Bullet(":/images/bullet1.png",ang/180*3.142,pos(),false, 10);
-    scene()->addItem(bullet);
+    // Add bullet to the scene
+    bulletPoor[bulletPoorIndex]->angle = ang/180*3.142;
+    bulletPoor[bulletPoorIndex]->vel_x = bulletPoor[bulletPoorIndex]->maxSpeed * qCos(bulletPoor[bulletPoorIndex]->angle);
+    bulletPoor[bulletPoorIndex]->vel_y = -(bulletPoor[bulletPoorIndex]->maxSpeed * qSin(bulletPoor[bulletPoorIndex]->angle));
+    bulletPoor[bulletPoorIndex]->setPos(this->pos());
+    //Bullet *bullet = new Bullet(":/images/bullet1.png",ang/180*3.142,pos(),false, 10);
+    scene()->addItem(bulletPoor[bulletPoorIndex]);
+    bulletPoorIndex = (bulletPoorIndex + 1) % bulletPoorSize;
+
     --currentBulletNum;
     sinceLastShoot = 0;
 

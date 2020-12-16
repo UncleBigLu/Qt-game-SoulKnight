@@ -14,6 +14,8 @@ class Room
 {
 public:
     Room(QPointF topLeft);
+    ~Room();
+    // Contains every sprites belongs to this room(including enemy and door in this version of code)
     QList<Sprite*> spriteList;
     QPointF topLeft;
     int width;  //     @##%
