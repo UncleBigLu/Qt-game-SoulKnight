@@ -4,6 +4,9 @@
 #include "room.h"
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QGraphicsPixmapItem>
+#include <QPushButton>
+#include <QPointF>
 
 Game::Game()
 {
@@ -46,6 +49,14 @@ Game::~Game()
 
 void Game::initialGame(const QString &mapFile)
 {
+    // Clean up the old scene
+        //To do
+
+    // Set up the scene
+    scene = new QGraphicsScene();
+    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
+    this->setScene(scene);
+
     //Initial player
     Player *player = new Player(":/images/hero.png");
     scene->addItem(player);
@@ -75,4 +86,32 @@ void Game::initialGame(const QString &mapFile)
     // Play bgm;
     bgmPlayer->setPlaylist(playlist[FOREST_THEME]);
     bgmPlayer->play();
+}
+
+void Game::gameover()
+{
+    qDebug() << "Gameover fUnc called";
+    timer.stop();
+//    // Clear all propeties belong to previous game
+//    QList<QGraphicsItem*> itemList = scene->items();
+//    for(int i = 0, n = itemList.length(); i < n; ++i)
+//        delete (itemList[i]);
+//    for(int i = 0, n = roomVector.length(); i < n; ++i)
+//        delete (roomVector[i]);
+
+//    qDebug()<< "scene cleared";
+    // Show Gameover panel
+    QGraphicsPixmapItem *gameOverPanel = new QGraphicsPixmapItem();
+    gameOverPanel->setPixmap(QPixmap(":/images/img/gameOver.png"));
+    gameOverPanel->setScale(0.8);
+    gameOverPanel->setPos(this->mapToScene(0, 0));
+    scene->addItem(gameOverPanel);
+
+    QPushButton* resetButton = new QPushButton();
+    resetButton->setText("Return to start menu");
+    resetButton->resize(200, 100);
+    //connect(resetButton, &QPushButton::clicked, scene, QGraphicsScene)
+    scene->addWidget(resetButton);
+    resetButton->move(this->mapToScene(0, 0).x(),this->mapToScene(0,0).y());
+
 }

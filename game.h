@@ -28,6 +28,7 @@ public:
     void changeMusic(int music);
     // Public attributes
     QGraphicsScene* scene;
+
 private:
     QTimer timer;
     QMediaPlaylist *playlist[MUSIC_NUM];

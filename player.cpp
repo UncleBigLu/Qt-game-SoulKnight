@@ -4,6 +4,7 @@
 #include "statusbar.h"
 #include <QSoundEffect>
 #include <QDebug>
+#include <game.h>
 
 // [1]Player class defination------------------------------------------------------
 Player::Player(const QString &imgName):
@@ -17,7 +18,7 @@ Player::Player(const QString &imgName):
     // Keep the player at the top of view
     this->setZValue(2);
 
-    maxHP = 80;
+    maxHP = 10;
     currentHP = maxHP;
     // Initial sound effects--------------------
     shootSound = new QSoundEffect();
@@ -44,6 +45,13 @@ void Player::getHit(int damage, int effect)
     if(currentHP <= 0)
         die();
     return;
+}
+
+void Player::die()
+{
+    qDebug()<<"die func called";
+    Game *game = dynamic_cast<Game*>(parentView);
+    game->gameover();
 }
 void Player::advance(int step)
 {

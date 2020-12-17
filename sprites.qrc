@@ -8,10 +8,23 @@
         <file>map/floor.png</file>
         <file>map/wall.png</file>
         <file>monster0.png</file>
+        <file>img/box.png</file>
+        <file>img/explosion.png</file>
+        <file>img/gameOver.png</file>
+        <file>img/pass.png</file>
+        <file>img/smoke.png</file>
+        <file>img/statusBar.png</file>
     </qresource>
     <qresource prefix="/data">
         <file>map.txt</file>
         <file>audio/attack.wav</file>
         <file>audio/bgSound1.mp3</file>
+        <file>audio/closeDoor.wav</file>
+        <file>audio/enemy_Hit.wav</file>
+        <file>audio/levelUp.wav</file>
+        <file>audio/openBox.wav</file>
+        <file>audio/playerHit.wav</file>
+        <file>audio/pressButton.wav</file>
+        <file>audio/reload.wav</file>
     </qresource>
 </RCC>

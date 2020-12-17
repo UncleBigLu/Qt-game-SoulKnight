@@ -24,6 +24,7 @@ public:
     // A reference of status bar
     StatusBar *bar = nullptr;
     void getHit(int damage, int effect) override;
+    void die() override;
 
 private:
     // Max attack speed is 1 bullet per 20 frame
