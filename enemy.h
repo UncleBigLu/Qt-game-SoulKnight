@@ -9,6 +9,7 @@
 class Player;
 class Room;
 class Bullet;
+class QSoundEffect;
 
 class Enemy:public Sprite{
 public:
@@ -41,6 +42,8 @@ private:
     // End of movement attributes===================================
     // Enemy's bullet pool---------------------------------
     BulletPool bulletPool;
+    // SoundEffects
+    QSoundEffect *dieSound;
 
     void shoot();
     void changeDirToPlayer();

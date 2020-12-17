@@ -4,6 +4,7 @@
 #include <QRandomGenerator>
 #include "room.h"
 #include <QDebug>
+#include <QSoundEffect>
 
 void Enemy::advance(int step)
 {
@@ -54,15 +55,20 @@ Enemy::Enemy(const QString &imgName, const QPointF pos, Player* atkTarget, Room*
     sinceLastAttack = random % attackCD;
     sinceLastMove = random % moveCD;
 
+    // Initial sound effects--------------------
+    dieSound = new QSoundEffect();
+    dieSound->setSource(QUrl("qrc:/data/audio/enemy_Hit.wav"));
 }
 
 Enemy::~Enemy()
 {
     qDebug()<< "enemy freed";
+    delete (dieSound);
 }
 
 void Enemy::die()
 {
+    dieSound->play();
     scene()->removeItem(this);
     parentRoom->enemyNum--;
     parentRoom->endBattle();

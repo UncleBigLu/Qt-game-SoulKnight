@@ -7,6 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPushButton>
 #include <QPointF>
+#include <QTimer>
 
 Game::Game()
 {
@@ -50,8 +51,8 @@ Game::~Game()
 void Game::initialGame(const QString &mapFile)
 {
     // Clean up the old scene
-        //To do
-
+    if(scene != nullptr)
+        delete(scene);
     // Set up the scene
     scene = new QGraphicsScene();
     scene->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -80,18 +81,23 @@ void Game::initialGame(const QString &mapFile)
     this->show();
 
     // Initial timer
-    QObject::connect(&timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
-    timer.start(1000/64);   // 64 frame per second
+    if(timer == nullptr)
+        delete(timer);
+    timer = new QTimer();
+    QObject::connect(timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    timer->start(1000/64);   // 64 frame per second
 
     // Play bgm;
     bgmPlayer->setPlaylist(playlist[FOREST_THEME]);
+    bgmPlayer->setVolume(40);
     bgmPlayer->play();
 }
 
 void Game::gameover()
 {
     qDebug() << "Gameover fUnc called";
-    timer.stop();
+    bgmPlayer->stop();
+    timer->stop();
 //    // Clear all propeties belong to previous game
 //    QList<QGraphicsItem*> itemList = scene->items();
 //    for(int i = 0, n = itemList.length(); i < n; ++i)
@@ -107,11 +113,26 @@ void Game::gameover()
     gameOverPanel->setPos(this->mapToScene(0, 0));
     scene->addItem(gameOverPanel);
 
-    QPushButton* resetButton = new QPushButton();
-    resetButton->setText("Return to start menu");
-    resetButton->resize(200, 100);
-    //connect(resetButton, &QPushButton::clicked, scene, QGraphicsScene)
-    scene->addWidget(resetButton);
-    resetButton->move(this->mapToScene(0, 0).x(),this->mapToScene(0,0).y());
+//    QPushButton* resetButton = new QPushButton();
+//    resetButton->setText("Return to start menu");
+//    resetButton->resize(200, 100);
+//    //connect(resetButton, &QPushButton::clicked, scene, QGraphicsScene)
+//    scene->addWidget(resetButton);
+//    resetButton->move(this->mapToScene(0, 0).x(),this->mapToScene(0,0).y());
+//    connect(resetButton, &QPushButton::clicked, this, &Game::restartGame);
 
+}
+
+void Game::restartGame()
+{
+    // Clean up the old scene
+    delete (scene);
+
+    scene = nullptr;
+    // Clean up the timer
+    delete (timer);
+    timer = nullptr;
+    qDebug()<< "scene Released";
+    this->initialGame(":/data/map.txt");
+    qDebug()<< "Button pressed";
 }

@@ -24,6 +24,8 @@ Player::Player(const QString &imgName):
     shootSound = new QSoundEffect();
     hitSound = new QSoundEffect();
     shootSound->setSource(QUrl("qrc:/data/audio/attack.wav"));
+    shootSound->setVolume(0.4);
+    hitSound->setSource(QUrl("qrc:/data/audio/playerHit.wav"));
 
 }
 
@@ -37,6 +39,7 @@ Player::~Player()
 void Player::getHit(int damage, int effect)
 {
     currentHP -= damage;
+    hitSound->play();
     if(currentHP < 0)
         currentHP = 0;
 

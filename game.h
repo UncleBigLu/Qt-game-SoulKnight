@@ -2,13 +2,13 @@
 #define GAME_H
 
 #include <QGraphicsView>
-#include <QTimer>
 #include <QVector>
 
 class QGraphicsScene;
 class QMediaPlaylist;
 class QMediaPlayer;
 class Room;
+class QTimer;
 
 enum Music{
     START_MENU = 0, FOREST_THEME, BOSS_THEME_1, BOSS_THEME_2
@@ -28,9 +28,11 @@ public:
     void changeMusic(int music);
     // Public attributes
     QGraphicsScene* scene;
+public slots:
+    void restartGame();
 
 private:
-    QTimer timer;
+    QTimer* timer = nullptr;
     QMediaPlaylist *playlist[MUSIC_NUM];
     QMediaPlayer *bgmPlayer;
     QVector<Room*> roomVector;
